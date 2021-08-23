@@ -1,0 +1,26 @@
+field-service:
+  - fieldservice
+  - fieldservice_delivery
+  - fieldservice_geoengine
+  - fieldservice_google_map
+  - fieldservice_google_marker_icon_picker
+  - fieldservice_location_builder
+  - fieldservice_route
+  - fieldservice_route_vehicle
+  - fieldservice_stock
+  - fieldservice_vehicle
+  - fieldservice_vehicle_stock
+geospatial:
+  - base_geoengine
+  - base_geoengine_demo
+  - base_geolocalize_openstreetmap
+  - base_google_map
+  - geoengine_bing
+  - geoengine_partner
+  - geoengine_swisstopo
+  - test_base_geoengine
+  - web_view_google_map
+  - web_widget_google_map_drawing
+  - web_widget_google_marker_icon_picker
+stock-logistics-warehouse:
+  - stock_putaway_method
