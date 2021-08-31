@@ -1,0 +1,183 @@
+<odoo>
+  <data>
+
+    <record id="fsm_person_form" model="ir.ui.view">
+        <field name="name">fsm.person.form.geolocalize</field>
+        <field name="model">fsm.person</field>
+        <field name="inherit_id" ref="fieldservice.fsm_person_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="map" string="Map">
+                    <button
+                            string="GeoCode Location"
+                            name="geo_localize"
+                            icon="fa-check"
+                            type="object"
+                        />
+                    <button string="Marky" icon="fa-map-marker" id="marky" />
+                    <div>
+                        <span> Lat : </span>
+                        <field name="shape_latitude" nolabel="1" class="oe_inline" />
+                        <span> ,  Long:  </span>
+                        <field name="shape_longitude" nolabel="1" class="oe_inline" />
+                    </div>
+                    <field name="shape" widget="geo_edit_map" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- GeoEngine views -->
+    <record id="ir_ui_view_fsm_person_map" model="ir.ui.view">
+        <field name="name">ir.ui.view.fsm.person.map</field>
+        <field name="arch" type="xml">
+            <geoengine>
+                <field name="name" select="1" />
+                <field name="display_name" />
+                <field name="mobile" />
+                <field name="shape" />
+                <field name="shape_latitude" />
+                <field name="shape_longitude" />
+                <field name="custom_color" />
+            </geoengine>
+        </field>
+        <field name="model">fsm.person</field>
+    </record>
+
+    <record id="geoengine_vector_layer_fsm_person" model="geoengine.vector.layer">
+        <field name="geo_field_id" ref="field_fsm_person__shape" />
+        <field name="name">FSM Worker location</field>
+        <field eval="6" name="sequence" />
+        <field name="view_id" ref="ir_ui_view_fsm_person_map" />
+        <field name="geo_repr">basic</field>
+        <field eval="1" name="nb_class" />
+        <!-- <field name="attribute_field_id" ref="field_fsm_person__custom_color"/> -->
+        <field name="begin_color">#FF680A</field>
+    </record>
+
+    <record id="geoengine_raster_layer_retailmachineosm" model="geoengine.raster.layer">
+        <field name="raster_type">osm</field>
+        <field name="name">FSM Worker background</field>
+        <field name="view_id" ref="ir_ui_view_fsm_person_map" />
+        <field eval="0" name="overlay" />
+    </record>
+
+    <record id="ir_ui_view_fsm_person_googlemap" model="ir.ui.view">
+        <field name="name">ir.ui.view.fsm.order.googlemap</field>
+        <field name="model">fsm.person</field>
+        <field name="arch" type="xml">
+            <map
+                    class="o_res_partner_map"
+                    library="geometry"
+                    string="Map"
+                    lat="shape_latitude"
+                    lng="shape_longitude"
+                    color="custom_color"
+                >
+                 <field name="name" select="1" />
+                 <field name="display_name" />
+                 <field name="mobile" />
+                 <field name="email" />
+                 <field name='stage_name' />
+                 <field name="shape_latitude" />
+                 <field name="shape_longitude" />
+                 <field name="stage_id" />
+                 <field name="custom_color" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_res_partner_kanban">
+                            <div class="oe_kanban_details">
+                                <strong
+                                        class="o_kanban_record_title oe_partner_heading"
+                                    >
+                                    <field name="display_name" />
+                                </strong>
+                                <ul>
+                                    <li>
+                                        <b>Name: </b><field name="display_name" />
+                                    </li>
+                                    <li>
+                                        <b>Mobile: </b><field name="mobile" />
+                                    </li>
+                                    <li>
+                                        <b>Email: </b><field name="email" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </map>
+        </field>
+    </record>
+
+    <record id="fieldservice.action_fsm_person" model="ir.actions.act_window">
+        <field name="name">Field Service Workers</field>
+        <field name="res_model">fsm.person</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,geoengine,map,form</field>
+        <field name="search_view_id" ref="fieldservice.fsm_person_search_view" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add Field Service Workers here.
+            </p>
+        </field>
+    </record>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="fieldservice_worker_geolocalize.list">
+      <field name="name">fieldservice_worker_geolocalize list</field>
+      <field name="model">fieldservice_worker_geolocalize.fieldservice_worker_geolocalize</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="fieldservice_worker_geolocalize.action_window">
+      <field name="name">fieldservice_worker_geolocalize window</field>
+      <field name="res_model">fieldservice_worker_geolocalize.fieldservice_worker_geolocalize</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="fieldservice_worker_geolocalize.action_server">
+      <field name="name">fieldservice_worker_geolocalize server</field>
+      <field name="model_id" ref="model_fieldservice_worker_geolocalize_fieldservice_worker_geolocalize"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="fieldservice_worker_geolocalize" id="fieldservice_worker_geolocalize.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="fieldservice_worker_geolocalize.menu_1" parent="fieldservice_worker_geolocalize.menu_root"/>
+    <menuitem name="Menu 2" id="fieldservice_worker_geolocalize.menu_2" parent="fieldservice_worker_geolocalize.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="fieldservice_worker_geolocalize.menu_1_list" parent="fieldservice_worker_geolocalize.menu_1"
+              action="fieldservice_worker_geolocalize.action_window"/>
+    <menuitem name="Server to list" id="fieldservice_worker_geolocalize" parent="fieldservice_worker_geolocalize.menu_2"
+              action="fieldservice_worker_geolocalize.action_server"/>
+    -->
+  </data>
+</odoo>
