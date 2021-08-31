@@ -1,13 +1,20 @@
 field-service:
   - fieldservice
+  - fieldservice_account
   - fieldservice_delivery
+  - fieldservice_fleet
   - fieldservice_geoengine
   - fieldservice_google_map
   - fieldservice_google_marker_icon_picker
   - fieldservice_location_builder
+  - fieldservice_recurring
   - fieldservice_route
+  - fieldservice_route_stock
   - fieldservice_route_vehicle
+  - fieldservice_sale
+  - fieldservice_sale_stock
   - fieldservice_stock
+  - fieldservice_stock_request
   - fieldservice_vehicle
   - fieldservice_vehicle_stock
 geospatial:
@@ -22,5 +29,15 @@ geospatial:
   - web_view_google_map
   - web_widget_google_map_drawing
   - web_widget_google_marker_icon_picker
+partner-contact:
+  - partner_fax
 stock-logistics-warehouse:
+  - stock_location_limit_product
   - stock_putaway_method
+  - stock_request
+  - stock_request_direction
+  - stock_request_picking_type
+  - stock_request_submit
+web:
+  - web_timeline
+  - web_responsive

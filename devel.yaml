@@ -164,6 +164,17 @@ services:
       TARGET: www.gravatar.com
       PRE_RESOLVE: 1
 
+  proxy_nominatim_openstreetmap_org:
+    image: ghcr.io/tecnativa/docker-whitelist:latest
+    networks:
+      default:
+        aliases:
+          - nominatim.openstreetmap.org
+      public:
+    environment:
+      TARGET: nominatim.openstreetmap.org
+      PRE_RESOLVE: 1
+
 networks:
   default:
     internal: true
